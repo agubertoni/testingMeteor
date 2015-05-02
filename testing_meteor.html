@@ -3,12 +3,17 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
+  <h1>Water Sensors</h1>
+  {{> sensorslist}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name = "sensorslist">
+  <ul>
+	{{#each showSensor}}
+		<li class="sensor {{selectedSensor}}">{{place}}: {{flow}} </li>
+	{{/each}}
+  </ul>
+  
+	Total of sensors: {{countSensors}}
+
 </template>

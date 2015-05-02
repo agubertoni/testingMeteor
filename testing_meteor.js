@@ -1,25 +1,33 @@
-if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+WaterSensors = new Mongo.Collection('sensors');
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+if(Meteor.isClient){
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
+	Template.sensorslist.helpers({
+		'showSensor' : function(){
+			return WaterSensors.find()
+		},
+		'countSensors' : function(){
+			return WaterSensors.find().count()
+		},
+		'selectedSensor': function(){
+			var sensorId = this._id;
+			var selectedSensor = Session.get('selectedSensor');
+			if(sensorId == selectedSensor){
+				return "selected"
+			}
+		}
+	});
+
+	Template.sensorslist.events({
+		'click .sensor':function(){
+			var sensorId = this._id;
+			Session.set('selectedSensor',sensorId);
+		},
+		'change':function(){
+			console.log("change")
+		},
+		'mouseover .sensor':function(){
+			console.log("focus")
+		}
+	});
 }
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
-}
-
-console.log("Hello hello");
